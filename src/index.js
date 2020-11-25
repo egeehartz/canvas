@@ -4,11 +4,13 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Canvas } from './Canvas';
 import { KonvaTest } from './Konva';
+import { GridTest } from "./Grid";
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <Canvas /> */}
     <KonvaTest />
+    {/* <GridTest /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
