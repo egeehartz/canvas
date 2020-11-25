@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Canvas } from './Canvas';
+import { KonvaTest } from './Konva';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Canvas />
+    {/* <Canvas /> */}
+    <KonvaTest />
   </React.StrictMode>,
   document.getElementById('root')
 );
