@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from "react"
 import { Stage } from 'react-konva';
-import { Circle, Line, Layer, Rect } from "konva";
+import { Line, Layer, Rect } from "konva";
 
 export const KonvaTest = () => {
 
     const stageRef = useRef(null)
 
     useEffect(() => {
+      //creates the grid
         const blockSnapSize = 30;
         const padding = blockSnapSize;
         const width = window.innerWidth;
@@ -36,18 +37,21 @@ export const KonvaTest = () => {
     },[])
     
     //create a new layer
-    const shapeLayer = new Layer()
+    const shapeLayer = new Layer({id:"shapes"})
 
-    const drawCircle = () => {
+    const drawRectangle = () => {
+        console.log(shapeLayer.attrs)
         const blockSnapSize = 30;
+
         //get the x, y positions of the click
         const coordinates = stageRef.current.getPointerPosition()
 
         let arr = []
         let arr2 = []
-        const clickX = Math.round(coordinates.x / blockSnapSize) * blockSnapSize
-        const clickY = Math.round(coordinates.y / blockSnapSize) * blockSnapSize
+        const clickX = coordinates.x
+        const clickY = coordinates.y
 
+        //finds the closest x coordinate (without going over)
         for(let i = 0; i < clickX ; i += 30){
           if (i > clickX) {
             break;
@@ -55,6 +59,8 @@ export const KonvaTest = () => {
             arr.push(i)
           }
         }
+
+        //finds the closest y coordinate (without going over)
         for(let i = 0; i < clickY ; i += 30){
           if (i > clickY) {
             break;
@@ -63,25 +69,15 @@ export const KonvaTest = () => {
           }
         }
 
+        //together, they make the top left corner of the Konva Rect
         const newX = arr.slice(-1)
         const newY = arr2.slice(-1)
-
-        console.log({
-          x: coordinates.x,
-          y: coordinates.y,
-          roundX: Math.round(coordinates.x / blockSnapSize) * blockSnapSize,
-          roundY: Math.round(coordinates.y / blockSnapSize) * blockSnapSize,
-          finalX: newX[0],
-          finalY: newY[0]
-        })
         
 
-        //create a circle 
-        const circle = new Rect({
-            // x: newX[0],
-            // y: newY[0],
-            x: Math.round(coordinates.x / blockSnapSize) * blockSnapSize,
-            y: Math.round(coordinates.y / blockSnapSize) * blockSnapSize,
+        //create a rectangle 
+        const rectangle = new Rect({
+            x: newX[0],
+            y: newY[0],
             height: blockSnapSize,
             width: blockSnapSize,
             fill: 'red',
@@ -90,8 +86,8 @@ export const KonvaTest = () => {
             draggable: true
         })
 
-        //add the circle to the layer then draw
-        shapeLayer.add(circle)
+        //add the rectangle to the layer then draw
+        shapeLayer.add(rectangle)
         shapeLayer.draw()
 
         //add the layer to the stage
@@ -100,7 +96,7 @@ export const KonvaTest = () => {
 
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}
-            onClick={() => drawCircle()} ref={stageRef}
+            onClick={() => drawRectangle()} ref={stageRef}
             style={{cursor:"crosshair"}}>
         </Stage>
     );
