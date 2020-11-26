@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Canvas } from './Canvas';
 import { KonvaTest } from './Konva';
-import { GridTest } from "./Grid";
+//import { GridTest } from "./Grid";
 
 ReactDOM.render(
   <React.StrictMode>

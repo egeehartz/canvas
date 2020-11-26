@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from "react"
 import { Stage } from 'react-konva';
-import { Circle, Line, Layer } from "konva";
+import { Circle, Line, Layer, Rect } from "konva";
 
 export const KonvaTest = () => {
 
-    const layerRef = useRef(null)
     const stageRef = useRef(null)
 
     useEffect(() => {
@@ -35,32 +34,42 @@ export const KonvaTest = () => {
 
         stageRef.current.add(gridLayer)
     },[])
+    
+    const shapeLayer = new Layer()
 
     const drawCircle = () => {
-        console.log('hear hear')
+        const blockSnapSize = 30;
+        //get the x, y positions of the click
+        const coordinates = stageRef.current.getPointerPosition()
 
-        const shapeLayer = new Layer()
+        console.log(Math.round(coordinates.y / blockSnapSize) * blockSnapSize)
 
-        const circle = new Circle({
-            x: 100,
-            y: 100,
-            radius: 70,
+        //create a new layer
+
+        //create a circle 
+        const circle = new Rect({
+            x: Math.round(coordinates.x / blockSnapSize) * blockSnapSize,
+            y: Math.round(coordinates.y / blockSnapSize) * blockSnapSize,
+            height: blockSnapSize,
+            width: blockSnapSize,
             fill: 'red',
             stroke: 'black',
-            strokeWidth: 4
+            strokeWidth: 4,
+            draggable: true
         })
 
+        //add the circle to the layer then draw
         shapeLayer.add(circle)
         shapeLayer.draw()
 
+        //add the layer to the stage
         stageRef.current.add(shapeLayer)
     }
 
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}
-            onClick={() => drawCircle()} ref={stageRef}>
-            {/* <Layer ref={layerRef} >
-            </Layer> */}
+            onClick={() => drawCircle()} ref={stageRef}
+            style={{cursor:"crosshair"}}>
         </Stage>
     );
 }
