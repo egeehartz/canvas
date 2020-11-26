@@ -35,6 +35,7 @@ export const KonvaTest = () => {
         stageRef.current.add(gridLayer)
     },[])
     
+    //create a new layer
     const shapeLayer = new Layer()
 
     const drawCircle = () => {
@@ -42,12 +43,43 @@ export const KonvaTest = () => {
         //get the x, y positions of the click
         const coordinates = stageRef.current.getPointerPosition()
 
-        console.log(Math.round(coordinates.y / blockSnapSize) * blockSnapSize)
+        let arr = []
+        let arr2 = []
+        const clickX = Math.round(coordinates.x / blockSnapSize) * blockSnapSize
+        const clickY = Math.round(coordinates.y / blockSnapSize) * blockSnapSize
 
-        //create a new layer
+        for(let i = 0; i < clickX ; i += 30){
+          if (i > clickX) {
+            break;
+          } else {
+            arr.push(i)
+          }
+        }
+        for(let i = 0; i < clickY ; i += 30){
+          if (i > clickY) {
+            break;
+          } else {
+            arr2.push(i)
+          }
+        }
+
+        const newX = arr.slice(-1)
+        const newY = arr2.slice(-1)
+
+        console.log({
+          x: coordinates.x,
+          y: coordinates.y,
+          roundX: Math.round(coordinates.x / blockSnapSize) * blockSnapSize,
+          roundY: Math.round(coordinates.y / blockSnapSize) * blockSnapSize,
+          finalX: newX[0],
+          finalY: newY[0]
+        })
+        
 
         //create a circle 
         const circle = new Rect({
+            // x: newX[0],
+            // y: newY[0],
             x: Math.round(coordinates.x / blockSnapSize) * blockSnapSize,
             y: Math.round(coordinates.y / blockSnapSize) * blockSnapSize,
             height: blockSnapSize,
